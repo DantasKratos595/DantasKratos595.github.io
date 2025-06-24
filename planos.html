@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Planos | Pedal Livre</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0f0f0f;
+      color: #f0f0f0;
+      scroll-behavior: smooth;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* NAVBAR */
+    header {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background: #0f0f0f;
+      z-index: 999;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: auto;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: bold;
+      font-size: 1.4rem;
+      color: #00ffcc;
+    }
+
+    .logo img {
+      height: 32px;
+    }
+
+    .logo span {
+      color: #00ffcc;
+      font-weight: bold;
+      font-size: 1.4rem;
+    }
+
+    .logo span:last-child {
+      color: #fff;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+
+    .nav-links li a {
+      color: #ccc;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: color 0.3s;
+    }
+
+    .nav-links li a:hover {
+      color: #00ffcc;
+    }
+
+    .social-icons a {
+      color: #888;
+      margin-left: 1rem;
+      font-size: 1.2rem;
+      transition: color 0.3s;
+    }
+
+    .social-icons a:hover {
+      color: #00ffcc;
+    }
+
+    main {
+      padding: 8rem 2rem 4rem;
+      max-width: 1200px;
+      margin: auto;
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #00ffcc;
+      margin-bottom: 1rem;
+    }
+
+    .subtitle {
+      color: #ccc;
+      margin-bottom: 3rem;
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .plans-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+
+    .plan-card {
+      background: #1c1c1c;
+      border-radius: 1rem;
+      padding: 2rem;
+      transition: 0.3s;
+      border: 2px solid transparent;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .plan-card:hover {
+      border-color: #00ffcc;
+      transform: scale(1.02);
+    }
+
+    .plan-card h2 {
+      color: #00ffcc;
+      margin-bottom: 0.5rem;
+    }
+
+    .price {
+      font-size: 1.4rem;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    .plan-features {
+      list-style: none;
+      padding-left: 0;
+      text-align: left;
+      color: #aaa;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      flex-grow: 1;
+    }
+
+    .plan-features li {
+      margin-bottom: 0.5rem;
+    }
+
+    .plan-button {
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
+      background: #00ff99;
+      color: #000;
+      font-weight: bold;
+      border-radius: 2rem;
+      transition: 0.3s;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .plan-button:hover {
+      background: #00cc88;
+    }
+
+    /* BOTÃO VOLTAR AO TOPO */
+    .home-icon {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #00ff99;
+      color: #000;
+      font-size: 1.3rem;
+      padding: 0.75rem 0.9rem;
+      border-radius: 50%;
+      box-shadow: 0 0 15px #00ff99;
+      border: none;
+      cursor: pointer;
+      display: none;
+      z-index: 1000;
+      transition: 0.3s;
+    }
+
+    .home-icon:hover {
+      background: #00cc88;
+    }
+
+    .home-icon.show {
+      display: block;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #111;
+      color: #ccc;
+      padding: 3rem 2rem;
+      margin-top: auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-col h3 {
+      color: #00ffcc;
+      margin-bottom: 1rem;
+    }
+
+    .footer-col p,
+    .footer-col ul {
+      font-size: 0.95rem;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-col ul li {
+      margin: 0.4rem 0;
+    }
+
+    .footer-col ul li a:hover {
+      color: #00ffcc;
+    }
+
+    .footer-newsletter {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .footer-newsletter input {
+      flex: 1;
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: none;
+    }
+
+    .footer-newsletter button {
+      padding: 0.5rem 1rem;
+      background: #00ff99;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .footer-newsletter button:hover {
+      background: #00cc88;
+    }
+
+    .footer-social a {
+      margin-right: 0.75rem;
+      font-size: 1.2rem;
+      color: #888;
+      transition: color 0.3s;
+    }
+
+    .footer-social a:hover {
+      color: #00ffcc;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #222;
+      padding-top: 1rem;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 600px) {
+      .footer-bottom {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="logo.png" alt="Logo Pedal Livre" />
+        <span>PEDAL<span style="color: #fff;">LIVRE</span></span>
+      </div>
+      <ul class="nav-links">
+        <li>
+          <a href="index.html"><i class="fas fa-home"></i> Início</a>
+        </li>
+        <li>
+          <a href="sobre.html"><i class="fas fa-users"></i> Sobre</a>
+        </li>
+        <li>
+          <a href="produtos.html"><i class="fas fa-bicycle"></i> Produtos</a>
+        </li>
+        <li>
+          <a href="planos.html"><i class="fas fa-coins"></i> Planos</a>
+        </li>
+        <li>
+          <a href="contatos.html"><i class="fas fa-envelope"></i> Contato</a>
+        </li>
+      </ul>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Planos de Aluguel</h1>
+    <p class="subtitle">
+      Escolha o plano ideal para seu estilo de pedalada. Seja para lazer, uso
+      diário ou aventura, temos a opção perfeita para você.
+    </p>
+
+    <section class="plans-container">
+      <article class="plan-card">
+        <h2>Plano Básico</h2>
+        <p class="price">R$ 19,90 / dia</p>
+        <ul class="plan-features">
+          <li>1 bicicleta urbana</li>
+          <li>Capacete incluso</li>
+          <li>Disponível das 8h às 18h</li>
+          <li>Assistência básica</li>
+        </ul>
+        <a href="contatos.html" class="plan-button">Assinar</a>
+      </article>
+
+      <article class="plan-card">
+        <h2>Plano Diário</h2>
+        <p class="price">R$ 69,90 / semana</p>
+        <ul class="plan-features">
+          <li>Ideal para turistas</li>
+          <li>Trilhas e mapas inclusos</li>
+          <li>Suporte por telefone</li>
+          <li>Entrega e retirada no hotel</li>
+        </ul>
+        <a href="contatos.html" class="plan-button">Assinar</a>
+      </article>
+
+      <article class="plan-card">
+        <h2>Plano Premium</h2>
+        <p class="price">R$ 149,00 / mês</p>
+        <ul class="plan-features">
+          <li>Uso ilimitado mensal</li>
+          <li>Modelos variados</li>
+          <li>Prioridade em reservas</li>
+          <li>Seguro contra roubo</li>
+        </ul>
+        <a href="contatos.html" class="plan-button">Assinar</a>
+      </article>
+
+      <article class="plan-card">
+        <h2>Plano Empresarial</h2>
+        <p class="price">A partir de R$ 399,00 / mês</p>
+        <ul class="plan-features">
+          <li>Frota para equipes</li>
+          <li>Faturamento mensal</li>
+          <li>Consultoria de mobilidade</li>
+          <li>Relatórios de uso</li>
+        </ul>
+        <a href="contatos.html" class="plan-button">Assinar</a>
+      </article>
+    </section>
+  </main>
+
+  <button
+    class="home-icon"
+    id="backToTop"
+    aria-label="Voltar ao topo"
+    title="Voltar ao topo"
+  >
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h3>Pedal Livre</h3>
+        <p>
+          Mobilidade urbana e sustentabilidade unidas em cada pedalada. Seu jeito
+          mais verde de explorar a cidade.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h3>Links Rápidos</h3>
+        <ul>
+          <li><a href="sobre.html">Sobre</a></li>
+          <li><a href="planos.html">Planos</a></li>
+          <li><a href="produtos.html">Bicicletas</a></li>
+          <li><a href="#">Galeria</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="contatos.html">Contato</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Newsletter</h3>
+        <p>Receba novidades, promoções e dicas exclusivas por e-mail.</p>
+        <div class="footer-newsletter">
+          <input type="email" placeholder="Seu e-mail" aria-label="Seu e-mail" />
+          <button>Assinar</button>
+        </div>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"
+            ><i class="fab fa-instagram"></i
+          ></a>
+          <a href="#" aria-label="Facebook"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+          <a href="#" aria-label="WhatsApp"
+            ><i class="fab fa-whatsapp"></i
+          ></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Pedal Livre. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    const backToTopBtn = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 200) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
